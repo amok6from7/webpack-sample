@@ -1,0 +1,19 @@
+{
+    "env": {
+        "browser": true, // ブラウザで実行するjsの場合設定する
+        "es2017": true // ES8の文法でのチェックを行う
+    },
+    "extends": "eslint:recommended",
+    "parser": "babel-eslint",
+    "parserOptions": { 
+        // "ecmaVersion": 2017,// envで設定すれば内部では設定されているので上書きしたい場合などに設定する
+        "sourceType": "module" // "script"
+    },
+    "globals": {
+        "$": "readonly" // コンパイル対象外のglobal値をエラーとしないために指定する
+    },
+    "rules": {
+        "no-undef": 0, // 除外するルール "off"でもよい
+        "semi": ["error", "always", {"omitLastInOneLineBlock": true}] // option指定の場合は配列指定
+    }
+}
