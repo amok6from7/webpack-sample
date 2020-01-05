@@ -10,10 +10,12 @@
         "sourceType": "module" // "script"
     },
     "globals": {
+        "utils": "readonly",
+        "jQuery": "readonly",
         "$": "readonly" // コンパイル対象外のglobal値をエラーとしないために指定する
     },
     "rules": {
-        "no-undef": 0, // 除外するルール "off"でもよい
+        //"no-undef": 0, // 除外するルール "off"でもよい
         "semi": ["error", "always", {"omitLastInOneLineBlock": true}] // option指定の場合は配列指定
     }
 }

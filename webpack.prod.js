@@ -1,5 +1,7 @@
 // HTMLにjsファイルの注入を行う
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const OptimizeCssPlugin = require('optimize-css-assets-webpack-plugin');
 const webpackMerge = require('webpack-merge');
 const commonConf = require('./webpack.common');
 const outputFile = '[name].[chunkhash]';
@@ -10,7 +12,21 @@ module.exports = () => webpackMerge(commonConf({outputFile, assetFile}), {
     plugins: [
         new HtmlWebpackPlugin({
             template: './src/index.html',
-            inject: 'body'
+            inject: 'body',
+            minify: {
+                collapseWhitespace: true,
+                removeComments: true,
+                removeRedundantAttributes: true,
+                removeScriptTypeAttributes: true,
+                removeStyleLinkTypeAttributes: true,
+                useShortDoctype: true
+              }
         })
-    ]
+    ],
+    optimization: {
+        minimizer: [
+            new TerserPlugin(),
+            new OptimizeCssPlugin()
+        ]
+    }
 });

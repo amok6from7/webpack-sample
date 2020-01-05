@@ -1,12 +1,14 @@
 import './sub';
 import './app.scss';
+import utils from './utils';
 // import 'regenerator-runtime'; //ここは babel.config.js useBuildInsで指定するほうがよい
 // import 'core-js'; //このコメントアウトのimportはES6以前用
 
 const init = async () => {
     console.log('this is a main js file.');
     await asyncFn();
-    g = 0;
+    jQuery();
+    utils.log('hello call log from app.js');
 };
 init();
 

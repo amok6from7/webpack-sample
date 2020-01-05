@@ -1,12 +1,14 @@
 const path = require('path');
 // CSS分離用
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { ProvidePlugin } = require('webpack');
 
 module.exports = ({outputFile, assetFile}) => ({
     entry: { app: './src/app.js' },
     output: {
         path: path.resolve(__dirname, 'public'), //絶対Pathで指定する
-        filename: `${outputFile}.js`
+        filename: `${outputFile}.js`,
+        chunkFilename: `${outputFile}.js`, // splitChunksを使う場合は推奨
     },
     module: {
         rules: [
@@ -60,6 +62,29 @@ module.exports = ({outputFile, assetFile}) => ({
     plugins: [ // newしてインスタンス化する必要がある
         new MiniCssExtractPlugin({
             filename: `${outputFile}.css`
+        }),
+        new ProvidePlugin({ // 複数モジュールで共通して使うものをここで定義可能
+            jQuery: 'jquery',
+            $: 'jquery',
+            utils: [path.resolve(__dirname, 'src/utils'), 'default']
         })
-    ]
+    ],
+    optimization: {
+        splitChunks: {
+            chunks: 'all',
+            minSize: 0,
+            cacheGroups: {
+                vendors: {
+                    name: "vendors", // 今回はjQueryをこの名前で分割する
+                    test: /node_modules/,
+                    priority: -10
+                },
+                utils: {
+                    name: "utils",
+                    test: /src[\\/]utils/,
+                },
+                default: false
+            }
+        }
+    },
 });
