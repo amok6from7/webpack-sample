@@ -19,7 +19,14 @@ module.exports = () => webpackMerge(commonConf({outputFile, assetFile}), {
     plugins: [
         new HtmlWebpackPlugin({
             template: './src/index.html',
-            inject: 'body'
+            inject: 'body',
+            chunks: ['app']
+        }),
+        new HtmlWebpackPlugin({
+            template: './src/other.html',
+            filename: 'other.html',
+            inject: 'body',
+            chunks: ['app']
         })
     ]
 });

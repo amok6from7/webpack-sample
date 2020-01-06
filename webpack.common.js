@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { ProvidePlugin } = require('webpack');
 
 module.exports = ({outputFile, assetFile}) => ({
-    entry: { app: './src/app.js' },
+    entry: { app: './src/js/app.js' },
     output: {
         path: path.resolve(__dirname, 'public'), //絶対Pathで指定する
         filename: `${outputFile}.js`,
@@ -66,7 +66,7 @@ module.exports = ({outputFile, assetFile}) => ({
         new ProvidePlugin({ // 複数モジュールで共通して使うものをここで定義可能
             jQuery: 'jquery',
             $: 'jquery',
-            utils: [path.resolve(__dirname, 'src/utils'), 'default']
+            utils: [path.resolve(__dirname, 'src/js/utils'), 'default']
         })
     ],
     optimization: {
@@ -81,10 +81,19 @@ module.exports = ({outputFile, assetFile}) => ({
                 },
                 utils: {
                     name: "utils",
-                    test: /src[\\/]utils/,
+                    test: /src[\\/]js[\\/]utils/,
+                    // chunks: 'async', //この単位でも設定可能
                 },
                 default: false
             }
         }
     },
+    resolve: {
+        alias: {
+            '@scss': path.resolve(__dirname, 'src/scss'),//@はaliasであることを明示するための手法なのでなくてもよい
+            '@imgs': path.resolve(__dirname, 'src/images')
+        },
+        extensions: ['.js', '.scss'], //jsはデフォルトで指定されている
+        modules: [path.resolve(__dirname, 'src'), 'node_modules'] // srcまで省略可能に
+    }
 });
